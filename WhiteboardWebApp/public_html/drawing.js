@@ -23,13 +23,7 @@ canvas.addEventListener(upEvent  , mouseUp);
 
 //The mouse is clicked down
 function mouseDown(event) {
-    mouse.x = event.pageX - this.offsetLeft;
-    mouse.y = event.pageY - this.offsetTop;
-    alert("X= " + mouse.x + "; Y= " + mouse.y);
-
     paint = true;
-    //addClick(event.pageX - this.offsetLeft, event.pageY - this.offsetTop);
-    //redraw();
 }
 
 //The mouse moves
@@ -56,6 +50,15 @@ function getMousePos(event) {
     return {
         x: event.clientX - rect.left,
         y: event.clientY - rect.top
+    };
+}
+
+function getTouchPos(event) {
+    var rect = canvas.getBoundingClientRect();
+    var touch = event.targetTouches[0];
+    return {
+        x: touch.pageX - rect.left,
+        y: touch.pageY - rect.top
     };
 }
 
