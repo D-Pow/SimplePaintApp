@@ -55,10 +55,13 @@ function mouseMoveFunc(event) {
 }
 
 function getMousePos(event) {
-    var rect = canvas.getBoundingClientRect();
+    //offset is actual spot on the page
+    //boundingClient is relative to the user's view
+    //e.g. scrolling down the page changes the boundingClient.top
+    //     but doesn't change offsetTop
     return {
-        x: event.pageX - rect.left,
-        y: event.pageY - rect.top
+        x: event.pageX - canvas.offsetLeft,
+        y: event.pageY - canvas.offsetTop
     };
 }
 

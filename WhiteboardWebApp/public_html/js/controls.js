@@ -30,8 +30,11 @@ function updateColor() {
  * Update width of stroke line.
  */
 function updateStrokeSize() {
-    document.getElementById("rangeValue").innerHTML = Math.round(strokeSizeInput.value);
-    context.lineWidth = strokeSizeInput.value;
+    var v = strokeSizeInput.value;               //actual value
+    var p = Math.round(strokeSizeInput.value);   //value to be printed
+    //format single digits to be same width as double digits
+    document.getElementById("rangeValue").innerHTML = p < 10 ? " " + p : p;
+    context.lineWidth = v;
 }
 
 /**
