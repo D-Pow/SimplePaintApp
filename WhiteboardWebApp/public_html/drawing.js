@@ -6,6 +6,7 @@ var cheight = parseInt(getComputedStyle(canvas).getPropertyValue('height'));
 
 var paint; //Boolean monitoring if it should paint
 var lineStarted; //if we've started drawing a line
+
 //Allow mobile users to use the app, too
 var touchMode = !!(navigator.userAgent.toLowerCase().match(/(android|iphone|ipod|ipad|blackberry)/));
 
@@ -38,6 +39,7 @@ function mouseMoveFunc(event) {
     
     var pos = touchMode ? getTouchPos(event) : getMousePos(event);
     
+    //Draw the line
     if (!lineStarted) {
         context.beginPath();
         context.moveTo(pos.x, pos.y);
@@ -78,7 +80,14 @@ function mouseLeaveFunc(event) {
     lineStarted = false;
 }
 
+/**
+ * Automatically updates canvas size according
+ * to window size.
+ */
 function changeCanvasSize() {
-    canvas.width = (window.innerWidth*0.7);
-    canvas.height= (window.innerHeight*0.7);
+    //Make canvas 70% of the window size
+    var widthPercent = 0.7;
+    var heightPercent = 0.7;
+    canvas.width = window.innerWidth*widthPercent;
+    canvas.height= window.innerHeight*heightPercent;
 }
