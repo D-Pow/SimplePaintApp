@@ -1,8 +1,6 @@
 var canvas = document.getElementById("whiteboard");
 var context = canvas.getContext("2d");
 changeCanvasSize();  //update canvas to current window size
-var cwidth = parseInt(getComputedStyle(canvas).getPropertyValue('width'));
-var cheight = parseInt(getComputedStyle(canvas).getPropertyValue('height'));
 
 var paint; //Boolean monitoring if it should paint
 var lineStarted; //if we've started drawing a line
