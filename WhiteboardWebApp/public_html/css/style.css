@@ -41,6 +41,10 @@ input {
     padding: 15px 20px;
 }
 
+input[type="range"] {
+    padding: 0;
+}
+
 /*Remove blue bordering of selected input elements*/
 input:focus, button:focus {
     outline: none;
