@@ -30,6 +30,10 @@ function mouseDownFunc(event) {
 
 //The mouse moves
 function mouseMoveFunc(event) {
+    //test coordinates
+    var p = document.getElementById("coords");
+    var pos = getMousePos(event);
+    p.innerHTML = ("X: " + pos.x + ";   Y: " + pos.y);
     event.preventDefault(); //necessary for early versions of Android
     if (!paint) {
         return;
