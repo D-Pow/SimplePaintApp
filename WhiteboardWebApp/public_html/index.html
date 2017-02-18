@@ -2,17 +2,18 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <title>Whiteboard Web App</title>
 </head>
 <body>
     <div id="app">
-        <button id="toggleControlsButton" onclick="toggleControls()">
-            Show/Hide Control Panel
-        </button>
-        
         <div id="controls">
             <table id="controlsTable" border="1">
+                <caption>
+                    <button id="toggleControlsButton" onclick="toggleControls()">
+                        Show/Hide Control Panel
+                    </button>
+                </caption>
                 <tr>
                     <th><h3>Color</h3></th>
                 </tr>
@@ -52,7 +53,7 @@
     
     <p id="coords"></p>
     
-    <script type="text/javascript" src="drawing.js"></script>
-    <script type="text/javascript" src="controls.js"></script>
+    <script type="text/javascript" src="js/drawing.js"></script>
+    <script type="text/javascript" src="js/controls.js"></script>
 </body>
 </html>

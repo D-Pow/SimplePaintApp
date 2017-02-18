@@ -1,8 +1,5 @@
 //context defined in drawing
 
-//Div element containing the control panel
-var controlDiv = document.getElementById('controls');
-
 //Color input element
 var colorInput = document.getElementById("color-chooser");
 colorInput.addEventListener("click", updateColor); //resets color if user doesn't change color
@@ -12,6 +9,12 @@ colorInput.addEventListener("input", updateColor); //changes color if user chang
 var strokeSizeInput = document.getElementById("stroke-width-chooser");
 strokeSizeInput.addEventListener("input", updateStrokeSize);
 updateStrokeSize();  //call to update current stroke size upon init
+
+//Set width of toggle-controls button to be static
+var controlsButton = document.getElementById("toggleControlsButton");
+//offsetWidth would work, too, but boundingClientRect is more accurate
+tableWidth = document.getElementById("controlsTable").getBoundingClientRect().width;
+controlsButton.style.width = tableWidth + "px";
 
 /**
  * Updates stroke color based on the color-input element.
@@ -35,7 +38,11 @@ function updateStrokeSize() {
  * Shows/hides control panel.
  */
 function toggleControls() {
-    controlDiv.classList.toggle('hidden');
+    var table = document.getElementById("controlsTable");
+    var elemsToHide = table.querySelectorAll("tr");
+    for (var i = 0; i < elemsToHide.length; i++) {
+        elemsToHide[i].classList.toggle('hidden');
+    }
 }
 
 /**
