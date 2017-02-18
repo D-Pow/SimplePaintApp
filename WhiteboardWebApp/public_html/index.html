@@ -6,27 +6,52 @@
     <title>Whiteboard Web App</title>
 </head>
 <body>
-  <div id="app">
-    <div id="sketch">
-        <h1>Canvas</h1>
-        <canvas id="whiteboard" style="border: solid 2px black"></canvas>
-    </div>
-      
-      <button id="toggleControlsButton" onclick="toggleControls()">
-          Show/Hide Control Panel
-      </button>
-      
-    <div id="controls">
-        <input id="color-chooser" type="color">
+    <div id="app">
+        <button id="toggleControlsButton" onclick="toggleControls()">
+            Show/Hide Control Panel
+        </button>
         
-        <input id="stroke-width-chooser" type="range" defaultValue=1
-               min=1 max=75 step=0.1 value=1>
-        <p id="rangeValue" style="display: inline;"></p>
-        
-        <input type="button" value="Clear Canvas" onclick="clearCanvas()">
+        <div id="controls">
+            <table id="controlsTable" border="1">
+                <tr>
+                    <th><h3>Color</h3></th>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="color-chooser" type="color">
+                        
+                        <input id="eraser-button" type="button" value="Eraser"
+                               onclick="selectEraserColor()">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th><h3>Brush Size</h3></th>
+                </tr>
+                <tr>
+                    <td>
+                    <input id="stroke-width-chooser" type="range" defaultValue=1
+                           min=1 max=75 step=0.1 value=1>
+                    <p id="rangeValue" style="display: inline; font-size:150%"></p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                    <input type="button" value="Clear Canvas" onclick="clearCanvas()">
+                    </th>
+                </tr>
+            </table>
+        </div>
+
+        <div id="sketch">
+            <h1>Canvas</h1>
+            <canvas id="whiteboard"></canvas>
+        </div>
     </div>
-  </div>
+    
     <p id="coords"></p>
+    
     <script type="text/javascript" src="drawing.js"></script>
     <script type="text/javascript" src="controls.js"></script>
 </body>
