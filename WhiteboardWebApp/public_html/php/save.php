@@ -1,3 +1,4 @@
 <?php
-  //$hashedPassword = hash("sha256", $password);
+    //$hashedPassword = hash("sha256", $password);
+    
 ?>
