@@ -36,7 +36,7 @@
             </tr>
             <tr>
                 <td><b>Password:</b></td>
-                <td><input type="text" id="pass" name="password"></td>
+                <td><input type="password" id="pass" name="password"></td>
             </tr>
             <tr>
                 <td><input type="submit" value="Login"></td>

@@ -68,7 +68,8 @@
 
                     <tr>
                         <td>
-                            <input type="submit" value="Save Sketch">
+                            <input id='saveButton' type="button"
+                                        onclick="saveSketch()" value="Save Sketch">
                             <input id="loadButton" type="button" onclick="" value="Load Sketch"> <!--To be implemented-->
                         </td>
                     </tr>
@@ -84,8 +85,11 @@
     </div>
 
     <p id="coords"></p>
+    <!--Empty iframe to allow form submission without leaving drawing page-->
+    <iframe name='saveFormAccept' id='saveFormAccept' style='display: none;'></iframe>
     
     <script type="text/javascript" src="js/drawing.js"></script>
     <script type="text/javascript" src="js/controls.js"></script>
+    <script type="text/javascript" src="js/savemanagement.js"></script>
 </body>
 </html>
