@@ -5,10 +5,24 @@
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="pragma" content="no-cache">
     <link rel="stylesheet" href="css/style.css" />
-  <title>Whiteboard Login</title>
+    <title>Whiteboard Login</title>
+    <style type="text/css">
+        html {
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            display: block;
+            background-color: rgb(134, 234, 204);
+            height: 15%;
+            width: 20%;
+            padding: 100px 0;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
-    <h2>Whiteboard</h2>
+    <h2 style="font-family: cursive;">Whiteboard</h2>
     <form id="loginForm" action="php/login.php" method="post">
         <table>
             <tr>
