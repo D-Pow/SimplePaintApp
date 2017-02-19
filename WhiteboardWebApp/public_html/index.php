@@ -42,6 +42,20 @@
                 <td><input type="submit" value="Login"></td>
                 <td><input type="button" value="Create Account" onclick="createLogin()"></td>
             </tr>
+            <tr>
+                <td colspan="2">
+<?php
+    if(isset($_POST['failed'])) {
+        if ($_POST['failed'] == "1") {
+            echo "Login failed.";
+        }
+        else if ($_POST['failed'] == "2") {
+            echo "Create account failed: user already exists.";
+        }
+    }
+?>
+                </td>
+            </tr>
         </table>
         <input id="createNew" name="createNew" type="hidden" name="createUser" value="0">
     </form>
@@ -59,14 +73,3 @@
     </script>
 </body>
 </html>
-
-<?php
-    if(isset($_POST['failed'])) {
-        if ($_POST['failed'] == "1") {
-            echo "Login failed.";
-        }
-        else if ($_POST['failed'] == "2") {
-            echo "Create account failed: user already exists.";
-        }
-    }
-?>
