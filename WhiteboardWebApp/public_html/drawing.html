@@ -7,6 +7,13 @@
     <meta http-equiv="pragma" content="no-cache">
     <link rel="stylesheet" href="css/style.css" />
     <title>Whiteboard Web App</title>
+    <script>
+        //Get username from cookie
+        if (document.cookie) {
+            var cookie = document.cookie.split(';');
+            var username = cookie[0].split('=')[1];
+        }
+    </script>
 </head>
 <body>
     <div id="app">

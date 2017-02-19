@@ -2,7 +2,7 @@
     /**
      * Note: PDO prepared statements are relatively
      * safe from SQL injection, but we still need many
-     * other safety checks before this site is safe.
+     * other safety checks on user input.
      */
     $db = new PDO("sqlite:../whiteboards.db");
     $createNewUser = intval($_POST['createNew']);
@@ -58,11 +58,16 @@
     }
 
     function acceptLogin($username) {
+        //Set username in cookie so JavaScript can use it
+        //setcookie(name, value, expireDate, path)
+        setcookie('username', $username, 0, '/');
         ?>
-            <form id="drawingForm" action="../drawing.html" method="get">
-                <input type=hidden name=username value=<?php echo $username ?> >
+            <form id="drawingForm" action="../drawing.html" method="post">
             </form>
-            <script type="text/javascript">document.getElementById("drawingForm").submit();</script>
+            <script type="text/javascript">
+                //Submit form
+                document.getElementById("drawingForm").submit();
+            </script>
         <?php
     }
 

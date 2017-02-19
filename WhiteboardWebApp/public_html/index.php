@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!--Force browser to pull page from server-->
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <link rel="stylesheet" href="css/style.css" />
   <title>Whiteboard Login</title>
 </head>
 <body>
