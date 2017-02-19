@@ -1,5 +1,8 @@
 var canvas = document.getElementById("whiteboard");
 var context = canvas.getContext("2d");
+var canvasRatio = document.getElementById("canvasRatio").value;
+var wRatio = parseInt(canvasRatio.split(':')[0]);
+var hRatio = parseInt(canvasRatio.split(':')[1]);
 changeCanvasSize();  //update canvas to current window size
 
 var paint; //Boolean monitoring if it should paint
@@ -46,6 +49,7 @@ function mouseMoveFunc(event) {
     //Draw the line
     if (!lineStarted) {
         context.beginPath();
+        context.lineJoin = context.lineCap = "round"; //make lines smooth, not jagged
         context.moveTo(pos.x, pos.y);
         lineStarted = true;
     } else {
@@ -96,15 +100,30 @@ function changeCanvasSize() {
     var drawing = new Image();
     drawing.src = canvas.toDataURL("image/png", 1.0);
     
-    //Make canvas the specified percentage of the window size
-    var widthPercent = 0.7;
-    var heightPercent = 0.8;
-    canvas.width = window.innerWidth*widthPercent;
-    canvas.height= window.innerHeight*heightPercent;
+    //Make canvas as large as it can go while maintaining the
+    //correct width:height ratio
+    var newWidth = window.innerWidth * 0.7;
+    var newHeight = window.innerHeight * 0.8;
+    var testH = newWidth/wRatio*hRatio;
+    var testW = newHeight/hRatio*wRatio;
+    
+    if (testW > newWidth) {
+        //width isn't large enough and is the limiting factor
+        //so use width in determining new canvas size
+        newHeight = newWidth/wRatio*hRatio;
+    } else {
+        //height isn't large enough and is the limiting factor
+        //so use it instead of width
+        newWidth = newHeight/hRatio*wRatio;
+    }
+    
+    canvas.width = newWidth;
+    canvas.height= newHeight;
     
     //redraw previous drawing
     //drawImage(image, x, y)
     drawing.onload = function() {
-        context.drawImage(drawing, 0, 0);
+        context.drawImage(drawing, 0, 0, canvas.width, canvas.height);
     };
+    
 }
