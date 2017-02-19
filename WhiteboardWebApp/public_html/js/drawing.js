@@ -66,11 +66,10 @@ function getMousePos(event) {
 }
 
 function getTouchPos(event) {
-    var rect = canvas.getBoundingClientRect();
     var touch = event.targetTouches[0];
     return {
-        x: touch.pageX - rect.left,
-        y: touch.pageY - rect.top
+        x: touch.pageX - canvas.offsetLeft,
+        y: touch.pageY - canvas.offsetTop
     };
 }
 
