@@ -38,6 +38,11 @@
 
 <?php
     if(isset($_POST['failed'])) {
-        echo "Login failed";
+        if ($_POST['failed'] == "1") {
+            echo "Login failed.";
+        }
+        else if ($_POST['failed'] == "2") {
+            echo "Create account failed: user already exists.";
+        }
     }
 ?>
