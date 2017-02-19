@@ -3,6 +3,7 @@ var context = canvas.getContext("2d");
 var canvasRatio = document.getElementById("canvasRatio").value;
 var wRatio = parseInt(canvasRatio.split(':')[0]);
 var hRatio = parseInt(canvasRatio.split(':')[1]);
+var dynamicResizing = false; //change to true if you want canvas resizing
 changeCanvasSize();  //update canvas to current window size
 
 var paint; //Boolean monitoring if it should paint
@@ -86,7 +87,7 @@ function mouseUpFunc(event) {
 
 //Mouse leaves the canvas
 function mouseLeaveFunc(event) {
-    paint = false;
+    //paint = false; //uncomment to turn paint off when going out of bounds
     lineStarted = false;
 }
 
@@ -95,6 +96,10 @@ function mouseLeaveFunc(event) {
  * to window size.
  */
 function changeCanvasSize() {
+    if (!dynamicResizing) {
+        setWindowSizeOnce();
+        return;
+    }
     //save current drawing
     //toDataURL(imageType, quality[from 0 - 1, 1 being highest] )
     var drawing = new Image();
@@ -125,5 +130,20 @@ function changeCanvasSize() {
     drawing.onload = function() {
         context.drawImage(drawing, 0, 0, canvas.width, canvas.height);
     };
-    
+}
+
+/**
+ * Sets the window size to the default values
+ * and doesn't allow resizing again.
+ */
+function setWindowSizeOnce() {
+    if (dynamicResizing === 0) {
+        //ensures resizing only occurs once
+        return;
+    } //else, set to default values
+    //default values if you don't want dynamic resizing of canvas
+    //resizing of canvas results in image degradation
+    canvas.width = 750;
+    canvas.height = 500;
+    dynamicResizing = 0;
 }
