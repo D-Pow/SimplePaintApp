@@ -19,9 +19,15 @@
             padding: 100px 0;
             margin: auto;
         }
+        #container {
+            border-radius: 25px;
+            padding: 30px 340px 100px 30px;
+            background-color: white;
+        }
     </style>
 </head>
 <body>
+<div id='container'>
     <h2 style="font-family: cursive;">Whiteboard</h2>
     <form id="loginForm" action="php/login.php" method="post">
         <table>
@@ -34,12 +40,13 @@
                 <td><input type="text" id="pass" name="password"></td>
             </tr>
             <tr>
-                <td><input type="submit" value="Login"</td>
-                <td><input type="button" value="Create Account" onclick="createLogin()"</td>
+                <td><input type="submit" value="Login"></td>
+                <td><input type="button" value="Create Account" onclick="createLogin()"></td>
             </tr>
         </table>
         <input id="createNew" name="createNew" type="hidden" name="createUser" value="0">
     </form>
+    </div>
     <br />
     <br />
     <script>
