@@ -2,7 +2,7 @@
 
 //Color input element
 var colorInput = document.getElementById("color-chooser");
-colorInput.addEventListener("click", updateColor); //resets color if user doesn't change color
+colorInput.addEventListener("click", updateColor); //resets color if user's last pen was the eraser
 colorInput.addEventListener("input", updateColor); //changes color if user changes color
 
 //Stroke-size input element
@@ -23,7 +23,7 @@ controlsButton.style.width = tableWidth + "px";
  */
 function updateColor() {
     context.strokeStyle = colorInput.value;
-    updateStrokeSize(); //sets pen back to chosen size if it was not already set
+    updateStrokeSize(); //sets pen back to chosen size if their previous pen was the eraser
 }
 
 /**

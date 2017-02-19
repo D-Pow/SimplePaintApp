@@ -1,4 +1,9 @@
 <?php
+    /**
+     * Note: PDO prepared statements are relatively
+     * safe from SQL injection, but we still need many
+     * other safety checks before this site is safe.
+     */
     $db = new PDO("sqlite:../whiteboards.db");
     $createNewUser = intval($_POST['createNew']);
     $username = $_POST["username"];

@@ -21,27 +21,26 @@ var downEvent = touchMode ? 'touchstart' : 'mousedown';
 var moveEvent = touchMode ? 'touchmove' : 'mousemove';
 var upEvent   = touchMode ? 'touchend' : 'mouseup';
 //Event listeners
-canvas.addEventListener(downEvent, mouseDownFunc);
-canvas.addEventListener(moveEvent, mouseMoveFunc);
-canvas.addEventListener(upEvent  , mouseUpFunc);
+canvas.addEventListener(downEvent, downFunc);
+canvas.addEventListener(moveEvent, moveFunc);
+canvas.addEventListener(upEvent  , upFunc);
 canvas.addEventListener('mouseleave', mouseLeaveFunc);  //if mouse leaves sketch area
 window.addEventListener('resize', changeCanvasSize);  //if window changes, resize canvas
 
-//The mouse is clicked down
-function mouseDownFunc(event) {
+/**
+ * The mouse is clicked or the screen is tapped.
+ */
+function downFunc(event) {
     paint = true;
-    mouseMoveFunc(event);  //called so that it draws a single
+    moveFunc(event);  //called so that it draws a single
                            //dot when clicked/tapped
 }
 
-//The mouse moves
-function mouseMoveFunc(event) {
+/**
+ * The mouse moves or the touch is dragged
+ */
+function moveFunc(event) {
     //test coordinates
-    /*
-    var p = document.getElementById("coords");
-    var pos = getMousePos(event);
-    p.innerHTML = ("X: " + Math.round(pos.x) + ";   Y: " + Math.round(pos.y));
-    */
     event.preventDefault(); //necessary for early versions of Android
     if (!paint) {
         return;
@@ -64,7 +63,14 @@ function mouseMoveFunc(event) {
     }
 }
 
+/**
+ * Get the position of the mouse.
+ */
 function getMousePos(event) {
+    //canvas has its own coordinate system, so we need to get the
+    //mouse position relative to the canvas.
+    //Top-left corner is at (0,0)
+
     //offset is actual spot on the page
     //boundingClient is relative to the user's view
     //e.g. scrolling down the page changes the boundingClient.top
@@ -75,6 +81,9 @@ function getMousePos(event) {
     };
 }
 
+/**
+ * Get the position of the touch.
+ */
 function getTouchPos(event) {
     var touch = event.targetTouches[0];
     return {
@@ -83,14 +92,18 @@ function getTouchPos(event) {
     };
 }
 
-//The mouse is lifted
-function mouseUpFunc(event) {
+/**
+ * The mouse is lifted or the touch ends.
+ */
+function upFunc(event) {
     event.preventDefault(); //for early Android
     paint = false;
     lineStarted = false;
 }
 
-//Mouse leaves the canvas
+/**
+ * The mouse leaves the edge of the canvas.
+ */
 function mouseLeaveFunc(event) {
     //paint = false; //uncomment to turn paint off when going out of bounds
     lineStarted = false;
