@@ -36,11 +36,11 @@ body {
 
 input {
     font-family: cursive;
-    margin: 15px;
+    margin: 7px;
     display: inline-block;
     background-color: rgb(71, 218, 185);
     border: none;
-    padding: 15px 20px;
+    padding: 5px 10px;
 }
 
 input[type="range"] {
@@ -71,4 +71,9 @@ th {
 td {
     text-align: center;
     background: rgb(71, 218, 145);
+}
+
+h3 {
+    margin: 0px;
+    padding: 5px;
 }
