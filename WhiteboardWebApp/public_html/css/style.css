@@ -6,6 +6,10 @@ app {
     display: block;
 }
 
+body {
+    margin: 0;
+}
+
 #whiteboard {
     position: relative;
     border: solid 2px red;
@@ -13,9 +17,8 @@ app {
 }
 
 #controls {
+    vertical-align: top;
     display: inline-block;
-    top: 0px;
-    left: 0px;
 }
 
 #sketch {

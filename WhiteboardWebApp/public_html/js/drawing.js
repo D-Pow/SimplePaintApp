@@ -91,9 +91,20 @@ function mouseLeaveFunc(event) {
  * to window size.
  */
 function changeCanvasSize() {
-    //Make canvas 70% of the window size
+    //save current drawing
+    //toDataURL(imageType, quality[from 0 - 1, 1 being highest] )
+    var drawing = new Image();
+    drawing.src = canvas.toDataURL("image/png", 1.0);
+    
+    //Make canvas the specified percentage of the window size
     var widthPercent = 0.7;
-    var heightPercent = 0.7;
+    var heightPercent = 0.8;
     canvas.width = window.innerWidth*widthPercent;
     canvas.height= window.innerHeight*heightPercent;
+    
+    //redraw previous drawing
+    //drawImage(image, x, y)
+    drawing.onload = function() {
+        context.drawImage(drawing, 0, 0);
+    };
 }
