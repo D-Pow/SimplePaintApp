@@ -30,6 +30,8 @@ window.addEventListener('resize', changeCanvasSize);  //if window changes, resiz
 //The mouse is clicked down
 function mouseDownFunc(event) {
     paint = true;
+    mouseMoveFunc(event);  //called so that it draws a single
+                           //dot when clicked/tapped
 }
 
 //The mouse moves
@@ -52,6 +54,9 @@ function mouseMoveFunc(event) {
         context.beginPath();
         context.lineJoin = context.lineCap = "round"; //make lines smooth, not jagged
         context.moveTo(pos.x, pos.y);
+        //draw single dot
+        context.lineTo(pos.x, pos.y);
+        context.stroke();
         lineStarted = true;
     } else {
         context.lineTo(pos.x, pos.y);
