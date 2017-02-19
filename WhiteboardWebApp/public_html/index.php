@@ -9,7 +9,6 @@
     <style type="text/css">
         html {
             width: 100%;
-            height: 100%;
         }
         body {
             display: block;
