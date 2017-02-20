@@ -4,26 +4,9 @@
     <!--Force browser to pull page from server-->
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="pragma" content="no-cache">
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/drawingstyle.css" />
+    <link rel="stylesheet" href="css/indexstyle.css" />
     <title>Whiteboard Login</title>
-    <style type="text/css">
-        html {
-            width: 100%;
-        }
-        body {
-            display: block;
-            background-color: rgb(134, 234, 204);
-            height: 15%;
-            width: 20%;
-            padding: 100px 0;
-            margin: auto;
-        }
-        #container {
-            border-radius: 25px;
-            padding: 30px 340px 100px 30px;
-            background-color: white;
-        }
-    </style>
 </head>
 <body>
 <div id='container'>
