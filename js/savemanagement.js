@@ -7,17 +7,44 @@ function saveSketch() {
     var image = new Image();
     image.src = canvas.toDataURL("image/png", 1.0);
 
-    var sketchid = 1; //to be changed later when multiple sketches is implemented
+    var sketchid = 1; //to be changed later when multiple sketches feature is implemented
 
     $.ajax({
-        type: 'POST',
+        method: 'POST',
         url: './php/save.php',
         data: {
             sketchid: sketchid,
             sketch:   image.src
         },
         success: function(result) {
-            alert(result);
+            //If sketch already present, offer to overwrite it
+            if (result=='validate') {
+                var replace = confirm("Do you wish to overwrite your old sketch?");
+                if (replace) {
+                    //overwrite the sketch
+                    $.ajax({
+                        method: 'POST',
+                        url: './php/save.php',
+                        data: {
+                            sketchid: sketchid,
+                            sketch:   image.src,
+                            replace:  true
+                        },
+                        success: function(result) {
+                            if (result == 'replaced') {
+                                alert("Sketch overwritten!");
+                            } else {
+                                alert("Something went wrong, and your sketch wasn't saved.");
+                            }
+                        }
+                    });
+                }
+            //If sketch wasn't already present and the database tried to insert it
+            } else if (result == 'inserted') {
+                alert("Sketch saved!");
+            } else if (result == 'not inserted') {
+                alert("Something went wrong, and your sketch wasn't saved.");
+            }
         }
     });
 }

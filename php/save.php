@@ -22,17 +22,37 @@
         if ((!$success) || (!in_array($sketchid, $sIDs))) {
             $insertedCorrectly = insertSketch($db, $username, $sketchid, $image);
             if ($insertedCorrectly) {
-                echo "Sketch saved!";
+                echo "inserted";
             } else {
-                echo "There was a problem saving your sketch.";
+                echo "not inserted";
             }
             return;
         } else {
-            echo "validate";  //ask JavaScript to verify that user should overwrite data
+            if (isset($_POST['replace'])) {
+                $replacedCorrectly = replaceSketch($db, $username, $sketchid, $image);
+                if ($replacedCorrectly) {
+                    echo 'replaced';
+                } else {
+                    echo 'failed';
+                }
+            } else {
+                echo "validate";  //ask JavaScript to verify that user should overwrite data
+            }
             return;
         }
     } finally {
         unset($db);
+    }
+
+    function replaceSketch($db, $username, $sketchid, $image) {
+        //Replace the sketch that already exists
+        $query = "UPDATE sketches SET sketch=:image WHERE username=:user AND sketchid=:sid;";
+        $statement = $db->prepare($query);
+        $statement->bindValue(":user", $username);
+        $statement->bindValue(":sid", $sketchid);
+        $statement->bindValue(':image', $image);
+        $success = $statement->execute();
+        return $success;
     }
 
     function insertSketch($db, $username, $sketchid, $image) {
@@ -43,6 +63,6 @@
         $statement->bindValue(":sid", $sketchid);
         $statement->bindValue(':image', $image);
         $success = $statement->execute();
-        return true;
+        return $success;
     }
 ?>
