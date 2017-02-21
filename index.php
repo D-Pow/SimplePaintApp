@@ -2,7 +2,7 @@
 <html>
 <head>
     <!--Force browser to pull page from server-->
-    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="pragma" content="no-cache">
     <link rel="stylesheet" href="css/drawingstyle.css" />
     <link rel="stylesheet" href="css/indexstyle.css" />

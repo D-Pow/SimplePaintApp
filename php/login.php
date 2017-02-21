@@ -4,57 +4,61 @@
      * safe from SQL injection, but we still need many
      * other safety checks on user input.
      */
-    $db = new PDO("sqlite:../whiteboards.db");
     $createNewUser = intval($_POST['createNew']);
     $username = $_POST["username"];
     $password = $_POST["password"];
     if ($username == "" || $password == "") {
         return;
     }
-    if ($createNewUser) {
-        //create new user
-        $hashedPassword = hash("sha256", $password);
-        $query = "SELECT username FROM users;";
-        $statement = $db->prepare($query);
-        $statement->execute();
-        $results = $statement->fetchAll();
-        if ($results) {
-            foreach ($results as $row) {
-                if ($row['username'] == $username) {
-                    rejectCreate();
-                    return;
+    try {
+        $db = new PDO("sqlite:../sketches.db");
+        if ($createNewUser) {
+            //create new user
+            $hashedPassword = hash("sha256", $password);
+            $query = "SELECT username FROM users;";
+            $statement = $db->prepare($query);
+            $statement->execute();
+            $results = $statement->fetchAll();
+            if ($results) {
+                foreach ($results as $row) {
+                    if ($row['username'] == $username) {
+                        rejectCreate();
+                        return;
+                    }
                 }
             }
-        }
-        $query = "INSERT INTO users (username, password) VALUES (:user, :pass);";
-        $statement = $db->prepare($query);
-        $statement->bindValue(':user', $username);
-        $statement->bindValue(':pass', $hashedPassword);
-        $statement->execute();
-        acceptLogin($username);
-    } else {
-        //load user from database
-        $query = "SELECT password FROM users WHERE username=:user;";
-        $statement = $db->prepare($query);
-        $statement->bindValue(':user', $username);
-        $statement->execute();
-        $results = $statement->fetchAll();
-        if ($results) {
-            $hashedPassword = hash("sha256", $password);
-            $row = $results[0];
-            $correctPass = $row['password'];
-            if (!($correctPass == $hashedPassword)) {
-                //reject request
+            $query = "INSERT INTO users (username, password) VALUES (:user, :pass);";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':user', $username);
+            $statement->bindValue(':pass', $hashedPassword);
+            $statement->execute();
+            acceptLogin($username);
+        } else {
+            //load user from database
+            $query = "SELECT password FROM users WHERE username=:user;";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':user', $username);
+            $statement->execute();
+            $results = $statement->fetchAll();
+            if ($results) {
+                $hashedPassword = hash("sha256", $password);
+                $row = $results[0];
+                $correctPass = $row['password'];
+                if (!($correctPass == $hashedPassword)) {
+                    //reject request
+                    rejectLogin();
+                    return;
+                } else {
+                    acceptLogin($username);
+                }
+            } else {
+                //no results
                 rejectLogin();
                 return;
-            } else {
-                acceptLogin($username);
             }
-        } else {
-            //no results
-            rejectLogin();
-            return;
         }
+    } finally {
+        unset($db);
     }
 
     function acceptLogin($username) {
