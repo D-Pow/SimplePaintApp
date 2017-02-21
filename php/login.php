@@ -65,6 +65,7 @@
         //Set username in cookie so JavaScript can use it
         //setcookie(name, value, expireDate, path)
         setcookie('username', $username, 0, '/');
+        setcookie('sketchid', 1, 0, '/');
         ?>
             <form id="drawingForm" action="../drawing.html" method="post">
             </form>

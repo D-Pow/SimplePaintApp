@@ -1,25 +1,18 @@
 <?php
     $username = $_COOKIE['username'] != '' ? $_COOKIE['username'] : '';
-    if ($username == '') {
+    $sketchid = $_COOKIE['sketchid'] != '' ? $_COOKIE['sketchid'] : '';
+    if ($username == '' || $sketchid == '') {
+        echo "bad cookie";
         return;
     }
-    $sketchid = $_POST['sketchid'];
     $image = $_POST['sketch'];
     try {
         $db = new PDO("sqlite:../sketches.db");
         //Check if sketchid already exists
-        $query = "SELECT username, sketchid FROM sketches WHERE username=:user;";
-        $statement = $db->prepare($query);
-        $statement->bindValue(":user", $username);
-        $success = $statement->execute();
-        if ($success) {  //if user has made sketches before
-            $sIDs = array();
-            $results = $statement->fetchAll();
-            foreach ($results as $row) {
-                $sIDs[] = $row['sketchid'];
-            }
-        }
-        if ((!$success) || (!in_array($sketchid, $sIDs))) {
+        $sketchAndUserExists = sketchExists($db, $username, $sketchid);
+        //if neither the user nor sketchid exist, then this is the first
+        //username-sketchid combo inserted into the database
+        if (!$sketchAndUserExists) {
             $insertedCorrectly = insertSketch($db, $username, $sketchid, $image);
             if ($insertedCorrectly) {
                 echo "inserted";
@@ -64,5 +57,20 @@
         $statement->bindValue(':image', $image);
         $success = $statement->execute();
         return $success;
+    }
+
+    function sketchExists($db, $username, $sketchid) {
+        $query = "SELECT username, sketchid FROM sketches WHERE username=:user;";
+        $statement = $db->prepare($query);
+        $statement->bindValue(":user", $username);
+        $success = $statement->execute();
+        if ($success) {  //if user has made sketches before
+            $sIDs = array();
+            $results = $statement->fetchAll();
+            foreach ($results as $row) {
+                $sIDs[] = $row['sketchid'];
+            }
+        }
+        return ($success && in_array($sketchid, $sIDs));
     }
 ?>

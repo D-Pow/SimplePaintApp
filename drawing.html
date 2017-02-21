@@ -12,6 +12,7 @@
         if (document.cookie) {
             var cookie = document.cookie.split(';');
             var username = cookie[0].split('=')[1];
+            var sketchid = parseInt(cookie[1].split('=')[1]);
         }
     </script>
 </head>
@@ -69,7 +70,8 @@
                         <td>
                             <input id='saveButton' type="button"
                                         onclick="saveSketch()" value="Save Sketch">
-                            <input id="loadButton" type="button" onclick="" value="Load Sketch"> <!--To be implemented-->
+                            <input id="loadButton" type="button"
+                                        onclick="loadSketch()" value="Load Sketch">
                         </td>
                     </tr>
                 </table>
@@ -91,6 +93,7 @@
     <script type="text/javascript" src="js/drawing.js"></script>
     <script type="text/javascript" src="js/controls.js"></script>
     <script type="text/javascript" src="js/savemanagement.js"></script>
+    <script type="text/javascript" src="js/loadmanagement.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </body>
 </html>

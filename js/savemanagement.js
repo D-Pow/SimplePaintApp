@@ -7,18 +7,19 @@ function saveSketch() {
     var image = new Image();
     image.src = canvas.toDataURL("image/png", 1.0);
 
-    var sketchid = 1; //to be changed later when multiple sketches feature is implemented
-
     $.ajax({
         method: 'POST',
         url: './php/save.php',
         data: {
-            sketchid: sketchid,
             sketch:   image.src
         },
         success: function(result) {
+            //If cookie was tampered with
+            if (result == 'bad cookie') {
+                alert('Cookie tampered with. Aborting.');
+            }
             //If sketch already present, offer to overwrite it
-            if (result=='validate') {
+            else if (result=='validate') {
                 var replace = confirm("Do you wish to overwrite your old sketch?");
                 if (replace) {
                     //overwrite the sketch
@@ -26,7 +27,6 @@ function saveSketch() {
                         method: 'POST',
                         url: './php/save.php',
                         data: {
-                            sketchid: sketchid,
                             sketch:   image.src,
                             replace:  true
                         },
