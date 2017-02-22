@@ -31,8 +31,12 @@
             $statement = $db->prepare($query);
             $statement->bindValue(':user', $username);
             $statement->bindValue(':pass', $hashedPassword);
-            $statement->execute();
-            acceptLogin($username);
+            $success = $statement->execute();
+            if ($success) {
+                acceptLogin($username);
+            } else {
+                rejectCreate();
+            }
         } else {
             //load user from database
             $query = "SELECT password FROM users WHERE username=:user;";
