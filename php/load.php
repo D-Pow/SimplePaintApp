@@ -12,16 +12,14 @@
         //if neither the user nor sketchid exist, then this is the first
         //username-sketchid combo inserted into the database
         if (!$sketchAndUserExists) {
-            echo "not present";
-            return;
+            reply("not present");
         } else {
             $result = loadSketch($db, $username, $sketchid);
             if ($result === false)  {
-                echo "problem loading";
+                reply("problem loading");
             } else {
-                echo $result;
+                reply($result);
             }
-            return;
         }
     } finally {
         unset($db);
@@ -56,5 +54,10 @@
             }
         }
         return ($success && in_array($sketchid, $sIDs));
+    }
+
+    function reply($message) {
+        echo $message;
+        exit();
     }
 ?>

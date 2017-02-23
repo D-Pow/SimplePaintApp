@@ -2,8 +2,7 @@
     $username = $_COOKIE['username'] != '' ? $_COOKIE['username'] : '';
     $sketchid = $_COOKIE['sketchid'] != '' ? $_COOKIE['sketchid'] : '';
     if ($username == '' || $sketchid == '') {
-        echo "bad cookie";
-        return;
+        reply("bad cookie");
     }
     $image = $_POST['sketch'];
     try {
@@ -15,21 +14,21 @@
         if (!$sketchAndUserExists) {
             $insertedCorrectly = insertSketch($db, $username, $sketchid, $image);
             if ($insertedCorrectly) {
-                echo "inserted";
+                reply("inserted");
             } else {
-                echo "not inserted";
+                reply("not inserted");
             }
-            return;
         } else {
             if (isset($_POST['replace'])) {
                 $replacedCorrectly = replaceSketch($db, $username, $sketchid, $image);
                 if ($replacedCorrectly) {
-                    echo 'replaced';
+                    reply('replaced');
                 } else {
-                    echo 'failed';
+                    reply('failed');
                 }
             } else {
-                echo "validate";  //ask JavaScript to verify that user should overwrite data
+                //ask JavaScript to verify that user should overwrite data
+                reply("validate");
             }
             return;
         }
@@ -72,5 +71,10 @@
             }
         }
         return ($success && in_array($sketchid, $sIDs));
+    }
+
+    function reply($message) {
+        echo $message;
+        exit();
     }
 ?>
