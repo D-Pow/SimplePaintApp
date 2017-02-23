@@ -4,15 +4,22 @@
      * safe from SQL injection, but we still need many
      * other safety checks on user input.
      */
-    $createNewUser = intval($_POST['createNew']);
+    if (isset($_POST['createNew'])) {
+        $createNewUser = intval($_POST['createNew']);
+    } else {
+        $createNewUser = 0;
+    }
+    if ((!isset($_POST['username'])) || (!isset($_POST['password']))) {
+        reply("no values");
+    }
     $username = $_POST["username"];
     $password = $_POST["password"];
     if ($username == "" || $password == "") {
-        return;
+        reply("no values");
     }
     try {
         $db = new PDO("sqlite:../sketches.db");
-        if ($createNewUser) {
+        if ($createNewUser===1) {
             //create new user
             $hashedPassword = hash("sha256", $password);
             $query = "SELECT username FROM users;";
@@ -22,8 +29,7 @@
             if ($results) {
                 foreach ($results as $row) {
                     if ($row['username'] == $username) {
-                        rejectCreate();
-                        return;
+                        reply("user exists");
                     }
                 }
             }
@@ -34,8 +40,9 @@
             $success = $statement->execute();
             if ($success) {
                 acceptLogin($username);
+                reply("accept login");
             } else {
-                rejectCreate();
+                reply("create failed");
             }
         } else {
             //load user from database
@@ -50,19 +57,23 @@
                 $correctPass = $row['password'];
                 if (!($correctPass == $hashedPassword)) {
                     //reject request
-                    rejectLogin();
-                    return;
+                    reply("wrong password");
                 } else {
                     acceptLogin($username);
+                    reply("accept login");
                 }
             } else {
-                //no results
-                rejectLogin();
-                return;
+                //no users with that username
+                reply("no usernames");
             }
         }
     } finally {
         unset($db);
+    }
+
+    function reply($message) {
+        echo $message;
+        exit();
     }
 
     function acceptLogin($username) {
@@ -70,32 +81,6 @@
         //setcookie(name, value, expireDate, path)
         setcookie('username', $username, 0, '/');
         setcookie('sketchid', 1, 0, '/');
-        ?>
-            <form id="drawingForm" action="../drawing.html" method="post">
-            </form>
-            <script type="text/javascript">
-                //Submit form
-                document.getElementById("drawingForm").submit();
-            </script>
-        <?php
-    }
-
-    function rejectLogin() {
-        ?>
-            <form id='reject' action='../index.php' method='post'>
-                <input type='hidden' name='failed' value='1'>
-            </form>
-            <script>document.getElementById('reject').submit();</script>
-        <?php
-    }
-
-    function rejectCreate() {
-        ?>
-            <form id='reject' action='../index.php' method='post'>
-                <input type='hidden' name='failed' value='2'>
-            </form>
-            <script>document.getElementById('reject').submit();</script>
-        <?php
     }
 
 ?>

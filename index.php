@@ -11,7 +11,6 @@
 <body>
 <div id='container'>
     <h2 style="font-family: cursive;">Whiteboard</h2>
-    <form id="loginForm" action="php/login.php" method="post">
         <table>
             <tr>
                 <td><b>Username:</b></td>
@@ -22,37 +21,88 @@
                 <td><input type="password" id="pass" name="password"></td>
             </tr>
             <tr>
-                <td><input type="submit" value="Login"></td>
-                <td><input type="button" value="Create Account" onclick="createLogin()"></td>
+                <td><input type="button" value="Login" onclick="login()"></td>
+                <td><input type="button" value="Create Account" onclick="createAccount()"></td>
             </tr>
             <tr>
                 <td colspan="2">
-<?php
-    if(isset($_POST['failed'])) {
-        if ($_POST['failed'] == "1") {
-            echo "Login failed.";
-        }
-        else if ($_POST['failed'] == "2") {
-            echo "Create account failed: user already exists.";
-        }
-    }
-?>
+                    <p id='feedback'></p>
                 </td>
             </tr>
         </table>
-        <input id="createNew" name="createNew" type="hidden" name="createUser" value="0">
-    </form>
     </div>
     <br />
     <br />
     <script>
-        var form = document.getElementById("loginForm");
-        
-        function createLogin() {
-            var input = document.getElementById("createNew");
-            input.value = 1;
-            form.submit();
+        function displayFeedback(message) {
+            document.getElementById("feedback").innerHTML = message;
+        }
+
+        function createAccount() {
+            var username = document.getElementById("user").value;
+            var password = document.getElementById("pass").value;
+
+            $.ajax({
+                method: 'POST',
+                url: 'php/login.php',
+                data: {
+                    createNew: 1,
+                    username:  username,
+                    password:  password
+                },
+                success: function(result) {
+                    //Username or password were blank
+                    if (result == 'no values') {
+                        displayFeedback("Please enter both username and password");
+                    //Username already taken
+                    } else if (result == 'user exists') {
+                        displayFeedback('That username is not available');
+                    //If there were a problem creating the account
+                    } else if (result == "create failed") {
+                        displayFeedback("There was a problem creating your account");
+                    //Correct login; redirect
+                    } else {
+                        //Make sure cookie exists first
+                        if (document.cookie) {
+                            window.location.href = "drawing.html";
+                        }
+                    }
+                }
+            });
+        }
+
+        function login(username, password) {
+            var username = document.getElementById("user").value;
+            var password = document.getElementById("pass").value;
+
+            $.ajax({
+                method: 'POST',
+                url: 'php/login.php',
+                data: {
+                    username:  username,
+                    password:  password
+                },
+                success: function(result) {
+                    //Username or password were blank
+                    if (result == 'no values') {
+                        displayFeedback("Please enter both username and password");
+                    //If right username, wrong password
+                    } else if (result == "wrong password") {
+                        displayFeedback("Incorrect username-password combination");
+                    //If no accounts exist with that username
+                    } else if (result == "no usernames") {
+                        displayFeedback("That username doesn't exist");
+                    //Correct login; redirect
+                    } else {
+                        //Make sure cookie exists first
+                        if (document.cookie) {
+                            window.location.href = "drawing.html";
+                        }
+                    }
+                }
+            });
         }
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </body>
 </html>
